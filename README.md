@@ -56,7 +56,16 @@ Manages the interactions between multiple research groups:
 
 To run the simulation:
 
-1. Compile the Java files:
+1. Compile: 
 
 ```bash
-javac ResearchEnvironment.java
+javac src/*.java
+```
+
+2. Run:
+
+```bash
+java -cp src CompetitiveEnvironment
+```
+
+3. Plot the results in the jupyter notebook `plot.ipynb`. Make sure to adapt the file path of the .csv file containing simulation results.
