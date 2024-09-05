@@ -5,9 +5,9 @@
 This project simulates the evolution of multiple innovators (e.g., research groups) in a competitive environment, such as the Boston research landscape. Each agent evolves its innovation and competition levels over time, influencing its overall fitness, according to a system of differential equations.
 
 <p align="center">
-  <img src="images/innovation_level_competition.png" alt="Image 1" width="300" />
-  <img src="images/innovation_level_innovation.png" alt="Image 2" width="300" />
-  <img src="images/median_innovation_competition.png" alt="Image 3" width="300" />
+  <img src="images/innovation_level_competition.png" alt="Image 1" width="250" />
+  <img src="images/innovation_level_innovation.png" alt="Image 2" width="250" />
+  <img src="images/median_innovation_competition.png" alt="Image 3" width="250" />
 </p>
 
 ## Mathematical model
