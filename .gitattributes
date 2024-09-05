@@ -1,2 +1,5 @@
 *.ipynb linguist-language=Jupyter Notebook
 *.ipynb linguist-documentation
+
+/docs/*.ipynb linguist-documentation
+/notebooks/*.ipynb linguist-documentation
