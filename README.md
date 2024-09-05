@@ -1,85 +1,62 @@
-# Mathematical Model of Innovation in a Competitive World
+# Multi-Agent Model of Innovation in a Competitive Environment
 
-## Introduction
+## Overview
 
-We here present a mathematical model for the evolution of innovation in a competitive world. The model defines how innovation, competition, and fitness interact over time.
+This project simulates the evolution of multiple innovators (e.g., research groups) in a competitive environment, such as the Boston research landscape. Each agent evolves its innovation and competition levels over time, influencing its overall fitness, according to a system of differential equations.
 
-## Variables and Parameters
+## Mathematical model
 
-Let the following variables and parameters be defined:
-
-- **I(t)**: Innovation level at time _t_.
-- **C(t)**: Competition level at time _t_.
-- **F(t)**: Fitness level at time _t_.
-- **r<sub>I</sub>**: Rate of innovation growth.
-- **r<sub>C</sub>**: Rate of competition growth.
-- **α**: Effect of innovation on fitness.
-- **β**: Effect of competition on fitness.
-- **γ**: Effect of fitness on competition (how competition grows as fitness improves).
-- **δ**: Effect of competition on innovation (how competition drives or inhibits innovation).
-
-## Innovation Dynamics
-
-The evolution of innovation is influenced by both competition and existing innovation levels. The equation governing this relationship is:
+The model is governed by the following system of differential equations for each agent:
 
 $$
-\frac{dI(t)}{dt} = r_I \cdot I(t) \cdot (1 - \delta \cdot C(t))
-$$
-
-where **r<sub>I</sub>** is the rate at which innovation grows naturally, and **δ** represents how much competition affects innovation negatively. If **δ > 0**, higher competition reduces innovation; if **δ < 0**, competition stimulates innovation.
-
-## Competition Dynamics
-
-Competition grows as more agents become fit, which leads to increased pressure on innovation. Competition might also decrease if innovation provides significant differentiation among agents. The competition dynamics are governed by:
-
-$$
-\frac{dC(t)}{dt} = r_C \cdot C(t) \cdot \left(\gamma \cdot F(t) - \frac{I(t)}{I(t) + 1}\right)
-$$
-
-where **r<sub>C</sub>** is the rate of change in competition, **γ** represents how much fitness drives competition, and **I(t) / (I(t) + 1)** captures diminishing returns on competition as innovation increases.
-
-## Fitness Dynamics
-
-Fitness is directly influenced by the level of innovation and the competition faced. Higher innovation increases fitness, while higher competition decreases it:
-
-$$
-\frac{dF(t)}{dt} = \alpha \cdot I(t) - \beta \cdot C(t)
-$$
-
-where **α** is the influence of innovation on fitness and **β** is the influence of competition on fitness.
-
-## Combined System of Equations
-
-The model can be expressed as a system of differential equations:
-
-$$
-\frac{dI(t)}{dt} = r_I \cdot I(t) \cdot (1 - \delta \cdot C(t))
+\frac{dI_i(t)}{dt} = r_{I,i} \cdot I_i(t) \cdot (1 - \delta \cdot C_i(t))
 $$
 
 $$
-\frac{dC(t)}{dt} = r_C \cdot C(t) \cdot \left(\gamma \cdot F(t) - \frac{I(t)}{I(t) + 1}\right)
+\frac{dC_i(t)}{dt} = r_{C,i} \cdot C_i(t) \cdot \left(\gamma \cdot F_i(t) - \frac{I_i(t)}{I_i(t) + 1}\right)
 $$
 
 $$
-\frac{dF(t)}{dt} = \alpha \cdot I(t) - \beta \cdot C(t)
+\frac{dF_i(t)}{dt} = \alpha \cdot I_i(t) - \beta \cdot C_i(t)
 $$
 
-## Interpretation
+Where:
+- **I<sub>i</sub>(t)**: Innovation level of agent _i_ at time _t_.
+- **C<sub>i</sub>(t)**: Competition level of agent _i_ at time _t_.
+- **F<sub>i</sub>(t)**: Fitness level of agent _i_ at time _t_.
+- **r<sub>I,i</sub>**: Innovation growth rate for agent _i_.
+- **r<sub>C,i</sub>**: Competition growth rate for agent _i_.
+- **α, β, γ, δ**: Constants representing interactions between innovation, competition, and fitness.
 
-- **Innovation Growth**: Innovation grows naturally but is tempered by competition. In highly competitive environments, innovation might slow unless competition stimulates it (if **δ** is negative).
-- **Competition**: Competition grows with fitness but is moderated by innovation. As innovation differentiates agents, competition might decrease.
-- **Fitness**: Fitness increases with innovation and decreases with competition. This balance drives the evolution of agents in the competitive environment.
+## Agents
 
-## Cyclical Dynamics
+### Innovator Class
 
-This system can produce cyclical dynamics, particularly if there are feedback loops between innovation, competition, and fitness. For example, as fitness increases due to innovation, competition also increases, which might then reduce the rate of innovation, leading to a decrease in fitness, and so on.
+Each innovator (e.g. a research group) is modeled as an agent with the following attributes:
+- **Innovation**: Represents the innovator's capacity for developing new ideas.
+- **Competition**: Represents the pressure the innovator faces from other innovators.
+- **Fitness**: Calculated based on innovation and competition.
 
-## Numerical Simulation
+### Key Methods
 
-This system of equations can be solved numerically to explore the dynamics over time, often leading to insights into how innovation and competition evolve in a competitive world. The model parameters **r<sub>I</sub>**, **r<sub>C</sub>**, **α**, **β**, **γ**, **δ** can be tuned to simulate different scenarios and competitive environments.
+- **innovate()**: Updates the innovation level according to the differential equation.
+- **compete()**: Updates the competition level according to the differential equation.
+- **updateFitness()**: Updates fitness based on innovation and competition.
+- **passTime()**: Simulates the passage of one time step.
 
-## Applications
+## Environment
 
-- **Economics**: Modeling how firms innovate and compete in markets.
-- **Ecology**: Understanding how species evolve in competitive ecosystems.
-- **Technology Development**: Studying how technological innovation evolves under competitive pressures.
+### CompetitiveEnvironment Class
+
+Manages the interactions between multiple research groups:
+- **simulate()**: Runs the simulation over multiple time steps, updating the state of each innovator.
+- **logState()**: Logs the state of all innovator at each time step.
+
+## Running the Simulation
+
+To run the simulation:
+
+1. Compile the Java files:
+
+```bash
+javac ResearchEnvironment.java
