@@ -14,10 +14,10 @@ public class CompetitiveEnvironment {
         this.timeSteps = timeSteps;
         this.groups = new ArrayList<>();
         this.logData = new ArrayList<>();
-        
+
         // Add header to logData
         logData.add(new String[]{"TimeStep", "GroupID", "Innovation", "Competition", "Fitness"});
-        
+
         for (int i = 0; i < numberOfGroups; i++) {
             double initialInnovation = Math.random() * 10;
             double initialCompetition = Math.random() * 5;
@@ -39,9 +39,30 @@ public class CompetitiveEnvironment {
                     Double.toString(group.getFitness())
                 });
             }
+
+            double avgInnovation = calculateAverageInnovation();
+            double avgCompetition = calculateAverageCompetition();
+            System.out.printf("Time Step %d - Average Innovation: %.2f, Average Competition: %.2f%n", t, avgInnovation, avgCompetition);
+
             logState(t);
         }
-        exportToCSV("./data/simulation_data.csv");
+        exportToCSV("data/simulation_data.csv");
+    }
+
+    private double calculateAverageInnovation() {
+        double totalInnovation = 0;
+        for (Innovator group : groups) {
+            totalInnovation += group.getInnovation();
+        }
+        return totalInnovation / groups.size();
+    }
+
+    private double calculateAverageCompetition() {
+        double totalCompetition = 0;
+        for (Innovator group : groups) {
+            totalCompetition += group.getCompetition();
+        }
+        return totalCompetition / groups.size();
     }
 
     private void logState(int timeStep) {
@@ -53,7 +74,13 @@ public class CompetitiveEnvironment {
     }
 
     private void exportToCSV(String filename) {
-        try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(filename)))) {
+        boolean fileExists = new java.io.File(filename).exists();
+
+        try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(filename, true)))) {
+            if (!fileExists) {
+                // Write the header if the file doesn't exist
+                writer.println("TimeStep,GroupID,Innovation,Competition,Fitness");
+            }
             for (String[] line : logData) {
                 writer.println(String.join(",", line));
             }
@@ -64,7 +91,7 @@ public class CompetitiveEnvironment {
     }
 
     public static void main(String[] args) {
-        CompetitiveEnvironment landscape = new CompetitiveEnvironment(5, 200); // 5 research groups, 50 time steps
+        CompetitiveEnvironment landscape = new CompetitiveEnvironment(1000, 200); // 1000 research groups, 100 time steps
         landscape.simulate();
     }
 }
